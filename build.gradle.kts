@@ -7,10 +7,10 @@ plugins {
     kotlin("jvm") version "1.6.10"
 }
 
-group = "alphanet"
+group = "comnet"
 version = "0.0.1"
 application {
-    mainClass.set("alphanet.ApplicationKt")
+    mainClass.set("comnet.ApplicationKt")
 }
 
 repositories {

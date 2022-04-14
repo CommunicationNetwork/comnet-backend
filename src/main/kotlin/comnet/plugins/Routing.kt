@@ -1,4 +1,4 @@
-package alphanet.plugins
+package comnet.plugins
 
 import io.ktor.server.routing.*
 import io.ktor.http.*

@@ -1,1 +1,1 @@
-rootProject.name = "alphanet.alphanet-backend"
+rootProject.name = "comnet.comnet-backend"
