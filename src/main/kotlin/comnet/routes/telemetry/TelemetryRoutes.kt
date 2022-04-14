@@ -2,6 +2,7 @@ package comnet.routes.telemetry
 
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
+import io.ktor.server.websocket.*
 
 fun Application.initTelemetryRoutes() {
     routing {
@@ -10,7 +11,7 @@ fun Application.initTelemetryRoutes() {
 }
 
 fun Route.telemetryRoute() {
-    get("/telemetry") {
+    webSocket("/telemetry") {
 
     }
 }
