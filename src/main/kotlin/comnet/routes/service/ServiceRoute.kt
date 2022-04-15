@@ -1,6 +1,8 @@
 package comnet.routes.service
 
+import comnet.proxy.ProxyConnector
 import io.ktor.server.application.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.initServiceRoutes() {
@@ -11,6 +13,10 @@ fun Application.initServiceRoutes() {
 
 fun Route.serviceStatusRoute() {
     get("/service/status") {
-
+        call.respond(ServiceStatusView(
+            true,
+            ProxyConnector.instance.isProxyConnected,
+            (System.currentTimeMillis() - ProxyConnector.instance.lastPacketTimestamp) < 5000
+        ))
     }
 }

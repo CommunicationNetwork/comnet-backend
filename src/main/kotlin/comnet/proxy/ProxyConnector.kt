@@ -6,13 +6,15 @@ import io.ktor.network.sockets.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import java.io.ByteArrayInputStream
+import java.io.DataInputStream
 import java.util.concurrent.ConcurrentLinkedQueue
 
 class ProxyConnector {
     companion object {
         val instance = ProxyConnector()
     }
-    private var ready: Boolean = false
+    private var ready: Boolean = true
     val queue: ConcurrentLinkedQueue<LiveTelemetryView> = ConcurrentLinkedQueue()
 
     @Volatile
@@ -41,7 +43,14 @@ class ProxyConnector {
                     input.readFully(rawData)
                     lastPacketTimestamp = System.currentTimeMillis()
                     if(ready) {
-                        // Process data
+                        DataInputStream(ByteArrayInputStream(rawData)).use {
+                            queue.add(LiveTelemetryView(
+                                it.readDouble(),
+                                it.readDouble(),
+                                it.readDouble(),
+                                it.readDouble()
+                            ))
+                        }
                     }
                 }
             }.onFailure {
