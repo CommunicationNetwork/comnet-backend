@@ -14,7 +14,7 @@ class ProxyConnector {
     companion object {
         val instance = ProxyConnector()
     }
-    private var ready: Boolean = true
+    private var ready: Boolean = false
     val queue: ConcurrentLinkedQueue<LiveTelemetryView> = ConcurrentLinkedQueue()
 
     @Volatile
