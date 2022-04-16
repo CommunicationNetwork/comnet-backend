@@ -18,7 +18,7 @@ class ProxyConnector {
     val queue: ConcurrentLinkedQueue<LiveTelemetryResponse> = ConcurrentLinkedQueue()
 
     @Volatile
-    var lastPacketTimestamp: Long = System.currentTimeMillis()
+    var lastPacketTimestamp: Long = 0
     @Volatile
     var isProxyConnected: Boolean = false
 

@@ -17,6 +17,9 @@ fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
         install(ContentNegotiation) { gson() }
         install(WebSockets)
+        install(CORS) {
+            anyHost() // TODO: Change
+        }
         CoroutineScope(Dispatchers.Default).launch {
             ProxyConnector.instance.start()
         }
