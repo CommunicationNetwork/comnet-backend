@@ -1,6 +1,6 @@
 package comnet.proxy
 
-import comnet.routes.telemetry.LiveTelemetryView
+import comnet.routes.telemetry.LiveTelemetryResponse
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import io.ktor.utils.io.*
@@ -15,7 +15,7 @@ class ProxyConnector {
         val instance = ProxyConnector()
     }
     private var ready: Boolean = false
-    val queue: ConcurrentLinkedQueue<LiveTelemetryView> = ConcurrentLinkedQueue()
+    val queue: ConcurrentLinkedQueue<LiveTelemetryResponse> = ConcurrentLinkedQueue()
 
     @Volatile
     var lastPacketTimestamp: Long = System.currentTimeMillis()
@@ -44,7 +44,7 @@ class ProxyConnector {
                     lastPacketTimestamp = System.currentTimeMillis()
                     if(ready) {
                         DataInputStream(ByteArrayInputStream(rawData)).use {
-                            queue.add(LiveTelemetryView(
+                            queue.add(LiveTelemetryResponse(
                                 it.readDouble(),
                                 it.readDouble(),
                                 it.readDouble(),

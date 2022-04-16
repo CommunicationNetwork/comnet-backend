@@ -13,7 +13,7 @@ fun Application.initServiceRoutes() {
 
 fun Route.serviceStatusRoute() {
     get("/service/status") {
-        call.respond(ServiceStatusView(
+        call.respond(ServiceStatusResponse(
             true,
             ProxyConnector.instance.isProxyConnected,
             (System.currentTimeMillis() - ProxyConnector.instance.lastPacketTimestamp) < 5000
