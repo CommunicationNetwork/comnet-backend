@@ -39,11 +39,12 @@ class ProxyConnector {
             kotlin.runCatching {
                 val input = socket.openReadChannel()
                 while(true) {
-                    val rawData = ByteArray(1024)
-                    input.readFully(rawData)
+                    val length = input.readShort().toUShort()
+                    val dataArray = ByteArray(length.toInt())
+                    input.readFully(dataArray)
                     lastPacketTimestamp = System.currentTimeMillis()
                     if(ready) {
-                        DataInputStream(ByteArrayInputStream(rawData)).use {
+                        DataInputStream(ByteArrayInputStream(dataArray)).use {
                             queue.add(LiveTelemetryResponse(
                                 it.readDouble(),
                                 it.readDouble(),
