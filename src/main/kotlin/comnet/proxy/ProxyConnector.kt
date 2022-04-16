@@ -52,6 +52,7 @@ class ProxyConnector {
                             ))
                         }
                     }
+                    if(!ready && !queue.isEmpty()) queue.clear()
                 }
             }.onFailure {
                 if(!socket.isClosed) socket.close()
