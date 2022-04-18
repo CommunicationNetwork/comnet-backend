@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 
 fun Application.initTelemetryRoutes() {
@@ -13,20 +14,17 @@ fun Application.initTelemetryRoutes() {
     }
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 fun Route.telemetryRoute() {
     webSocket("/telemetry") {
         ProxyConnector.instance.setReadyState(true)
-        try {
-            while(true) {
-                delay(500)
-                if(ProxyConnector.instance.queue.isEmpty() || !ProxyConnector.instance.isProxyConnected) continue
-                sendSerialized(
-                    ProxyConnector.instance.queue.poll()
-                )
-            }
-        } catch(_: Exception) {
-            println("error")
-            ProxyConnector.instance.setReadyState(false)
+        while(!outgoing.isClosedForSend) {
+            delay(500)
+            if(ProxyConnector.instance.queue.isEmpty() || !ProxyConnector.instance.isProxyConnected) continue
+            sendSerialized(
+                ProxyConnector.instance.queue.poll()
+            )
         }
+        ProxyConnector.instance.setReadyState(false)
     }
 }
