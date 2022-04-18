@@ -16,7 +16,7 @@ fun Route.serviceStatusRoute() {
         call.respond(ServiceStatusResponse(
             true,
             ProxyConnector.instance.isProxyConnected,
-            (System.currentTimeMillis() - ProxyConnector.instance.lastPacketTimestamp) < 5000
+            (System.currentTimeMillis() - ProxyConnector.instance.lastPacketTimestamp) < 5000 && ProxyConnector.instance.isProxyConnected
         ))
     }
 }
