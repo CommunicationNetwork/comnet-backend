@@ -4,6 +4,7 @@ import comnet.proxy.ProxyConnector
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
+import io.ktor.websocket.*
 import kotlinx.coroutines.delay
 
 fun Application.initTelemetryRoutes() {
@@ -24,6 +25,7 @@ fun Route.telemetryRoute() {
                 )
             }
         } catch(_: Exception) {
+            println("error")
             ProxyConnector.instance.setReadyState(false)
         }
     }

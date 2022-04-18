@@ -16,7 +16,9 @@ import kotlinx.coroutines.runBlocking
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
         install(ContentNegotiation) { gson() }
-        install(WebSockets)
+        install(WebSockets) {
+            contentConverter = GsonWebsocketContentConverter()
+        }
         install(CORS) {
             anyHost() // TODO: Change
         }
