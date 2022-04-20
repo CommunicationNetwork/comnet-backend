@@ -19,7 +19,6 @@ fun Route.telemetryRoute() {
     webSocket("/telemetry") {
         ProxyConnector.instance.setReadyState(true)
         while(!outgoing.isClosedForSend) {
-            delay(500)
             if(ProxyConnector.instance.queue.isEmpty() || !ProxyConnector.instance.isProxyConnected) continue
             sendSerialized(
                 ProxyConnector.instance.queue.poll()
